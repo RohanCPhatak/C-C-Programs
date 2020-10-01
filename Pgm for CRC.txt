@@ -1,0 +1,101 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int f[20], fs, gs, g[10];
+    cout<<"\nEnter framne size: ";
+    cin>>fs;
+
+    cout<<"\nEnter frame data one by one: ";
+    for(int i=0;i<fs;i++){
+        cin>>f[i];
+    }
+
+    cout<<"\nEnter generator size: ";
+    cin>>gs;
+
+    cout<<"\nEnter generator code: ";
+    for(int i=0;i<gs;i++){
+        cin>>g[i];
+    }
+
+    cout<<"\nAt sender's side: ";
+
+    cout<<"\nEntered frame: ";
+    for(int i=0;i<fs;i++){
+        cout<<f[i];
+    }
+
+    cout<<"\nGenerator code: ";
+    for(int i=0;i<gs;i++){
+        cout<<g[i];
+    }
+
+    int rs = gs-1;
+    cout<<"\nZeros to be appended: "<<rs;
+
+    for(int i=fs;i<fs+rs;i++){
+        f[i] = 0;
+    }
+
+    int temp[20];
+    for(int i=0;i<20;i++){
+        temp[i] = f[i];
+    }
+
+    cout<<"\nFinal message: ";
+    for(int i=0; i<fs+rs; i++){
+        cout<<temp[i];
+    }
+
+    for(int i=0;i<fs;i++)
+    {
+        int j=0;
+        int k=i;
+        if (temp[k]>=g[j])
+        {
+            for(j=0,k=i;j<gs;j++,k++)
+            {
+                if((temp[k]==1 && g[j]==1) || (temp[k]==0 && g[j]==0))
+                {
+                    temp[k]=0;
+                }
+                else
+                {
+                    temp[k]=1;
+                }
+            }
+        }
+    }
+
+    int crc[15];
+    for(int i=0,j=fs;i<rs;i++,j++)
+    {
+        crc[i]=temp[j];
+    }
+
+    cout<<"\nCRC bits: ";
+    for(int i=0;i<rs;i++)
+    {
+        cout<<crc[i];
+    }
+
+    cout<<"\nTransmitted message: ";
+    int tf[15];
+    for(int i=0;i<fs;i++)
+    {
+        tf[i]=f[i];
+    }
+    for(int i=fs,int j=0;i<fs+rs;i++,j++)
+    {
+        tf[i]=crc[j];
+    }
+    for(int i=0;i<fs+rs;i++)
+    {
+        cout<<tf[i];
+    }
+
+    return 0;
+}
